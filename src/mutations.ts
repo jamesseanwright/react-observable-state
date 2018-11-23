@@ -1,3 +1,5 @@
+// TODO: we're actually replacing the state each time? Better name?!
+
 import { ajax } from 'rxjs/ajax';
 import { appState, State } from './state';
 import { catchError, take, switchMap } from 'rxjs/operators';
