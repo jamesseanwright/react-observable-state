@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Observable } from 'rxjs';
 import useObservable from 'react-observable-hook';
 import { appState, defaultState, State } from './state';
 
