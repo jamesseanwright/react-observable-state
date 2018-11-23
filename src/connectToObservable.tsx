@@ -9,8 +9,10 @@ const connectToObservable = <TState, TProps = {}>(observable: Observable<TState>
 
       React.useEffect(() => {
         const subscription = observable.subscribe(setState);
-        return subscription.unsubscribe;
-      });
+        return () => {
+          subscription.unsubscribe();
+        };
+      }, []);
 
       return <Component {...props} {...state} />;
     };
