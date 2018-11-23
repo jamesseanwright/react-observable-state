@@ -28,7 +28,6 @@
   "dependencies": {
     "react": "16.7.0-alpha.2",
     "react-dom": "16.7.0-alpha.2",
-    "react-observable-hook": "0.0.2",
     "rxjs": "6.3.3"
   },
   "devDependencies": {
