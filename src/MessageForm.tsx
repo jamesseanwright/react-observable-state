@@ -1,8 +1,10 @@
 import * as React from 'react';
-import { addMessage } from './state';
+import useObservable from 'react-observable-hook';
+import { addMessage, appState, defaultState, State } from './state';
 
 const MessageForm = () => {
   const [message, setMessage] = React.useState('');
+  const { isFormValid } = useObservable<State>(appState, defaultState);
 
   return (
     <section>
@@ -20,6 +22,8 @@ const MessageForm = () => {
         />
         <input type="submit" />
       </form>
+
+      {!isFormValid && <p>Please enter a message!</p>}
     </section>
   );
 };
