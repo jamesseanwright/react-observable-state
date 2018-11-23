@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "build": "mkdir -p dist && rm -rf dist/* && cp src/index.html dist && rollup -c",
-    "dev": "npm run build && static dist"
+    "dev": "npm run build && static -H '{\"Cache-Control\": \"no-cache, must-revalidate\"}' dist"
   },
   "repository": {
     "type": "git",

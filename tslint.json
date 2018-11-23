@@ -14,7 +14,7 @@
         "indent": [true, "spaces", 2],
         "only-arrow-functions": [false],
         "ordered-imports": [false],
-        "quotemark": [true, "single"],
+        "quotemark": [true, "single", "jsx-double"],
         "space-before-function-paren": [true, { "anonymous": "always" }],
         "variable-name": [true, "check-format", "allow-leading-underscore", "allow-pascal-case"]
     },
