@@ -1,7 +1,7 @@
 {
   "name": "react-observable-state",
   "version": "0.0.1",
-  "description": "A proof-of-concept app using observables as its means of state management",
+  "description": "A proof-of-concept app using observables as its primary means of state management",
   "main": "dist/index.js",
   "scripts": {
     "test": "jest",
