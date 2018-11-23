@@ -3,7 +3,6 @@
     "extends": [
         "tslint:recommended"
     ],
-    "jsRules": {},
     "rules": {
         "array-type": [true, "array"],
         "arrow-parens": [true, "ban-single-arg-parens"],

@@ -21,6 +21,8 @@ export default {
             'Component',
             'PropTypes',
             'createElement',
+            'useEffect',
+            'useState',
         ],
       },
     }),
