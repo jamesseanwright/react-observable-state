@@ -1,0 +1,48 @@
+{
+  "name": "react-observable-state",
+  "version": "0.0.1",
+  "description": "A proof-of-concept app using observables as its means of state management",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "jest",
+    "build": "mkdir -p dist && rm -rf dist/* && cp src/index.html dist && rollup -c",
+    "dev": "npm run build && static dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jamesseanwright/react-observable-state.git"
+  },
+  "keywords": [
+    "react",
+    "rxjs",
+    "observable",
+    "state",
+    "redux"
+  ],
+  "author": "James Wright <james@jamesswright.co.uk>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jamesseanwright/react-observable-state/issues"
+  },
+  "homepage": "https://github.com/jamesseanwright/react-observable-state#readme",
+  "dependencies": {
+    "react": "16.7.0-alpha.2",
+    "react-dom": "16.7.0-alpha.2",
+    "react-observable-hook": "0.0.2",
+    "rxjs": "6.3.3"
+  },
+  "devDependencies": {
+    "@types/react": "16.7.7",
+    "@types/react-dom": "16.0.10",
+    "jest": "23.6.0",
+    "node-static": "0.7.11",
+    "prettier": "1.15.2",
+    "rollup": "0.67.3",
+    "rollup-plugin-commonjs": "9.2.0",
+    "rollup-plugin-node-globals": "1.4.0",
+    "rollup-plugin-node-resolve": "3.4.0",
+    "rollup-plugin-typescript2": "0.18.0",
+    "ts-jest": "23.10.5",
+    "typescript": "3.1.6"
+  }
+}
