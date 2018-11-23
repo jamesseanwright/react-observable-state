@@ -1,10 +1,10 @@
 import * as React from 'react';
-import useObservable from 'react-observable-hook';
-import { addMessage, appState, defaultState, State } from './state';
+import { addMessage, addRonSwansonQuote } from './actions';
+import { State, appState, defaultState } from './state';
+import connectToObservable from './connectToObservable';
 
-const MessageForm = () => {
+const MessageForm = ({ isLoadingQuote, isFormValid, hasQuoteError }: State) => {
   const [message, setMessage] = React.useState('');
-  const { isFormValid } = useObservable<State>(appState, defaultState);
 
   return (
     <section>
@@ -20,12 +20,20 @@ const MessageForm = () => {
           placeholder="Your comment"
           onChange={e => setMessage(e.currentTarget.value)}
         />
-        <input type="submit" />
+        <input type="submit" value="Add" />
+        <button
+          type="button"
+          disabled={isLoadingQuote}
+          onClick={() => addRonSwansonQuote()}
+        >
+          Add Ron Swanson quote
+        </button>
       </form>
 
       {!isFormValid && <p>Please enter a message!</p>}
+      {hasQuoteError && <p>Unable to retrieve Ron Swanson quote!</p>}
     </section>
   );
 };
 
-export default MessageForm;
+export default connectToObservable(appState, defaultState)(MessageForm);

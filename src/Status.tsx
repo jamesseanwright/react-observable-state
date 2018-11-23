@@ -1,11 +1,10 @@
 import * as React from 'react';
 import useObservable from 'react-observable-hook';
 import { appState, defaultState, State } from './state';
+import connectToObservable from './connectToObservable';
 
-const Status = () => {
-    const { messages } = useObservable<State>(appState, defaultState);
+const Status = ({ messages }: State) => (
+  <p>{messages.length} {messages.length === 1 ? 'message' : 'messages'}</p>
+);
 
-    return <p>{messages.length} {messages.length === 1 ? 'message' : 'messages'}</p>;
-  };
-
-export default Status;
+export default connectToObservable(appState, defaultState)(Status);

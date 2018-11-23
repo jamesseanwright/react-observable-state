@@ -1,15 +1,11 @@
 import * as React from 'react';
-import useObservable from 'react-observable-hook';
 import { appState, defaultState, State } from './state';
+import connectToObservable from './connectToObservable';
 
-const MessageList = () => {
-    const { messages } = useObservable<State>(appState, defaultState);
+const MessageList = ({ messages }: State) => (
+  <ul>
+    {messages.map((message, i) => <li key={i}>{message}</li>)}
+  </ul>
+);
 
-    return (
-      <ul>
-        {messages.map((message, i) => <li key={i}>{message}</li>)}
-      </ul>
-    );
-  };
-
-export default MessageList;
+export default connectToObservable(appState, defaultState)(MessageList);
