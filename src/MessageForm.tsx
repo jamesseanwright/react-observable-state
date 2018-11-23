@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { addMessage, addRonSwansonQuote, nextState } from './actions';
+import { addMessage, addRonSwansonQuote, nextState } from './mutations';
 import { State, appState, defaultState } from './state';
 import connectToObservable from './connectToObservable';
 

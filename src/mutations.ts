@@ -3,7 +3,10 @@ import { appState, State } from './state';
 import { catchError, take, switchMap } from 'rxjs/operators';
 import { of, concat, Observable } from 'rxjs';
 
-// TODO: better names for these!
+interface QuotesResponse {
+  response: string[];
+}
+
 export type Mutator<TPayload> = (payload?: TPayload) => Reducer;
 export type Reducer = (currentState: State) => Observable<State>;
 
@@ -58,7 +61,7 @@ export const addRonSwansonQuote = () =>
       onQuoteLoading()(state),
       ajax('https://ron-swanson-quotes.herokuapp.com/v2/quotes')
         .pipe(
-          switchMap(({ response }) => addMessage(response[0])(state)), // TODO: type! abstract curry?
+          switchMap(({ response }: QuotesResponse) => addMessage(response[0])(state)), // TODO: past latest state!
           catchError(() => onQuoteError()(state)),
         ),
     );
