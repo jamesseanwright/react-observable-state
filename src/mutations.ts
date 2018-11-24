@@ -42,7 +42,7 @@ export const addMessage = (message: string) =>
     );
 
 export const onQuoteLoading = () =>
-  currentState =>
+  (currentState: State) =>
     of({
       ...currentState,
       isLoadingQuote: true,
@@ -50,7 +50,7 @@ export const onQuoteLoading = () =>
     });
 
 export const onQuoteError = () =>
-  currentState =>
+  (currentState: State) =>
     of({
       ...currentState,
       isLoadingQuote: false,
@@ -58,12 +58,12 @@ export const onQuoteError = () =>
     });
 
 export const addRonSwansonQuote = () =>
-  (state: State) =>
+  (currentState: State) =>
     concat(
-      onQuoteLoading()(state),
+      onQuoteLoading()(currentState),
       ajax('https://ron-swanson-quotes.herokuapp.com/v2/quotes')
         .pipe(
-          switchMap(({ response }: QuotesResponse) => addMessage(response[0])(state)), // TODO: past latest state!
-          catchError(() => onQuoteError()(state)),
+          switchMap(({ response }: QuotesResponse) => addMessage(response[0])(currentState)), // TODO: past latest state!
+          catchError(() => onQuoteError()(currentState)),
         ),
     );
