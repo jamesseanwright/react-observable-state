@@ -2,12 +2,8 @@
 
 import { ajax } from 'rxjs/ajax';
 import { appState, State } from './state';
-import { catchError, take, switchMap } from 'rxjs/operators';
-import { of, concat, Observable } from 'rxjs';
-
-interface QuotesResponse {
-  response: string[];
-}
+import { catchError, take, switchMap, first } from 'rxjs/operators';
+import { of, concat, Observable, forkJoin } from 'rxjs';
 
 export type Mutator<TPayload> = (payload?: TPayload) => Reducer;
 export type Reducer = (currentState: State) => Observable<State>;
@@ -61,9 +57,13 @@ export const addRonSwansonQuote = () =>
   (currentState: State) =>
     concat(
       onQuoteLoading()(currentState),
-      ajax('https://ron-swanson-quotes.herokuapp.com/v2/quotes')
-        .pipe(
-          switchMap(({ response }: QuotesResponse) => addMessage(response[0])(currentState)), // TODO: past latest state!
-          catchError(() => onQuoteError()(currentState)),
-        ),
+      appState.pipe(
+        first(),
+        switchMap(loadingState => forkJoin(
+          of(loadingState),
+          ajax.getJSON<string[]>('https://ron-swanson-quotes.herokuapp.com/v2/quotes'),
+        )),
+        switchMap(([loadingState, [quote]]) => addMessage(quote)(loadingState)),
+        catchError(() => onQuoteError()(currentState)),
+      ),
     );
