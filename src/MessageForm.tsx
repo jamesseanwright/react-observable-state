@@ -24,7 +24,7 @@ const MessageForm = ({ isLoadingQuote, isFormValid, hasQuoteError }: State) => {
         <button
           type="button"
           disabled={isLoadingQuote}
-          onClick={() => nextState(addRonSwansonQuote())}
+          onClick={() => addRonSwansonQuote()}
         >
           Add Ron Swanson quote
         </button>

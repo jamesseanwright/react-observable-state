@@ -8,12 +8,21 @@ import { of, concat, Observable } from 'rxjs';
 export type Mutator<TPayload> = (payload?: TPayload) => Reducer;
 export type Reducer = (currentState: State) => Observable<State>;
 
-export const nextState = (reducer: Reducer) => {
-  const sequence = appState
+const withState = (reducer: Reducer) =>
+  appState
     .pipe(
       take(1),
       switchMap(state => reducer(state)),
     );
+
+const listen = (observable: Observable<State>) =>
+  observable.subscribe(newState => {
+    console.log('******', newState);
+    appState.next(newState);
+  });
+
+export const nextState = (reducer: Reducer) => {
+  const sequence = withState(reducer);
 
   sequence.subscribe(newState => appState.next(newState));
 
@@ -22,25 +31,16 @@ export const nextState = (reducer: Reducer) => {
 
 export const addMessage = (message: string) =>
   (currentState: State) =>
-    of(
-      message.length
-        ? {
-          ...currentState,
-          isFormValid: true,
-          isLoadingQuote: false,
-          hasQuoteError: false,
-          messages: [
-            message,
-            ...currentState.messages,
-          ],
-        }
-        : {
-          ...currentState,
-          isFormValid: false,
-          isLoadingQuote: false,
-          hasQuoteError: false,
-        },
-    );
+    of({
+      ...currentState,
+      isFormValid: !!message.length,
+      isLoadingQuote: false,
+      hasQuoteError: false,
+      messages: [
+        ...(message.length ? [message] : []),
+        ...currentState.messages,
+      ],
+    });
 
 export const onQuoteLoading = () =>
   (currentState: State) =>
@@ -59,12 +59,12 @@ export const onQuoteError = () =>
     });
 
 export const addRonSwansonQuote = () =>
-  () =>
+  listen(
     concat(
-      nextState(onQuoteLoading()),
+      withState(onQuoteLoading()),
       ajax.getJSON<string[]>('https://ron-swanson-quotes.herokuapp.com/v2/quotes')
         .pipe(
-          switchMap(([quote]) => nextState(addMessage(quote))),
-          catchError(() => nextState(onQuoteError())),
+          switchMap(([quote]) => withState(addMessage(quote))),
+          catchError(() => withState(onQuoteError())),
         ),
-    );
+    ));
