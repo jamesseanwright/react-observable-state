@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { addMessage, addRonSwansonQuote, nextState } from './mutations';
+import { addMessage, addRonSwansonQuote, toNextState, subscribe } from './mutations';
 import { State, appState, defaultState } from './state';
 import connectToObservable from './connectToObservable';
 
@@ -12,7 +12,7 @@ const MessageForm = ({ isLoadingQuote, isFormValid, hasQuoteError }: State) => {
 
       <form onSubmit={e => {
         e.preventDefault();
-        nextState(addMessage(message));
+        toNextState(addMessage(message));
       }}>
         <input
           type="text"
@@ -24,7 +24,7 @@ const MessageForm = ({ isLoadingQuote, isFormValid, hasQuoteError }: State) => {
         <button
           type="button"
           disabled={isLoadingQuote}
-          onClick={() => addRonSwansonQuote()}
+          onClick={() => subscribe(addRonSwansonQuote())}
         >
           Add Ron Swanson quote
         </button>

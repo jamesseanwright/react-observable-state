@@ -15,13 +15,10 @@ const withState = (reducer: Reducer) =>
       switchMap(state => reducer(state)),
     );
 
-const listen = (observable: Observable<State>) =>
-  observable.subscribe(newState => {
-    console.log('******', newState);
-    appState.next(newState);
-  });
+export const subscribe = (observable: Observable<State>) =>
+  observable.subscribe(newState => appState.next(newState));
 
-export const nextState = (reducer: Reducer) => {
+export const toNextState = (reducer: Reducer) => {
   const sequence = withState(reducer);
 
   sequence.subscribe(newState => appState.next(newState));
@@ -59,12 +56,11 @@ export const onQuoteError = () =>
     });
 
 export const addRonSwansonQuote = () =>
-  listen(
-    concat(
-      withState(onQuoteLoading()),
-      ajax.getJSON<string[]>('https://ron-swanson-quotes.herokuapp.com/v2/quotes')
-        .pipe(
-          switchMap(([quote]) => withState(addMessage(quote))),
-          catchError(() => withState(onQuoteError())),
-        ),
-    ));
+  concat(
+    withState(onQuoteLoading()),
+    ajax.getJSON<string[]>('https://ron-swanson-quotes.herokuapp.com/v2/quotes')
+      .pipe(
+        switchMap(([quote]) => withState(addMessage(quote))),
+        catchError(() => withState(onQuoteError())),
+      ),
+  );
