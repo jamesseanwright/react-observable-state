@@ -4,7 +4,7 @@
   "description": "A proof-of-concept React app using observables as its primary means of state management",
   "main": "dist/index.js",
   "scripts": {
-    "test": "jest",
+    "test": "tslint 'src/**/*.{ts,tsx}' && jest",
     "build": "mkdir -p dist && rm -rf dist/* && cp src/index.html dist && rollup -c",
     "dev": "npm run build && static -H '{\"Cache-Control\": \"no-cache, must-revalidate\"}' dist"
   },
