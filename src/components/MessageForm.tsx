@@ -1,7 +1,15 @@
 import * as React from 'react';
-import { addMessage, addRonSwansonQuote, toNextState, subscribe } from './mutations';
-import { State, appState, defaultState } from './state';
 import connectToObservable from './connectToObservable';
+
+import {
+  addMessage,
+  addRonSwansonQuote,
+  toNextState,
+  subscribe,
+  State,
+  appState,
+  defaultState,
+} from '../state';
 
 const MessageForm = ({ isLoadingQuote, isFormValid, hasQuoteError }: State) => {
   const [message, setMessage] = React.useState('');

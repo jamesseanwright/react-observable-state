@@ -20,6 +20,7 @@ export default {
         'node_modules/react/index.js': [
             'Component',
             'PropTypes',
+            'Fragment',
             'createElement',
             'useEffect',
             'useState',

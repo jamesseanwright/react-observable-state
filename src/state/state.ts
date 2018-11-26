@@ -15,4 +15,4 @@ export const defaultState: State = {
 };
 
 export const appState = new ReplaySubject<State>(1);
-appState.next(defaultState); // TODO: do we need default state elsewhere then?!
+appState.next(defaultState);
