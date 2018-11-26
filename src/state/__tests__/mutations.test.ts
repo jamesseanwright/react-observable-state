@@ -1,5 +1,8 @@
-import { Observable } from 'rxjs';
-import { addMessage, onQuoteError, onQuoteLoading } from '../mutations';
+jest.mock('rxjs/ajax');
+
+import { Observable, of, throwError } from 'rxjs';
+import { ajax } from 'rxjs/ajax';
+import { addMessage, onQuoteError, onQuoteLoading, addRonSwansonQuote } from '../mutations';
 
 const toAwaitable = <T>(observable: Observable<T>) => {
   let emissions: T[] = [];
@@ -117,6 +120,33 @@ describe('state mutations', () => {
         isLoadingQuote: false,
         hasQuoteError: true,
       });
+    });
+  });
+
+  describe('addRonSwansonQuote', () => {
+    afterEach(() => {
+      jest.resetAllMocks();
+    });
+
+    it('should dispatch the loading state, request a quote, and add it if successful', async () => {
+      (ajax.getJSON as jest.Mock).mockImplementation(() => of(['some quote']));
+
+      const [loadingState, messageState] = await toAwaitable(addRonSwansonQuote());
+
+      expect(loadingState.isLoadingQuote).toBe(true);
+      expect(messageState.hasQuoteError).toBe(false);
+      expect(messageState.messages).toEqual(['some quote']);
+    });
+
+    it('should dispatch the error state when the quote call fails', async () => {
+      (ajax.getJSON as jest.Mock).mockImplementation(() => throwError(new Error('Nope')));
+
+      const [loadingState, errorState] = await toAwaitable(addRonSwansonQuote());
+
+      expect(loadingState.isLoadingQuote).toBe(true);
+      expect(errorState.isLoadingQuote).toBe(false);
+      expect(errorState.hasQuoteError).toBe(true);
+      expect(errorState.messages).toEqual([]);
     });
   });
 });
