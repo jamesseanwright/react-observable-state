@@ -6,7 +6,6 @@ import { of, concat, Observable } from 'rxjs';
 export type Action<TPayload> = (payload?: TPayload) => Reducer;
 export type Reducer = (currentState: State) => Observable<State>;
 
-// TODO: move to state.ts
 const withState = (reducer: Reducer) =>
   appState
     .pipe(
