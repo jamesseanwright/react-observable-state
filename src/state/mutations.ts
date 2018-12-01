@@ -1,28 +1,7 @@
 import { ajax } from 'rxjs/ajax';
-import { appState, State } from './state';
-import { catchError, take, switchMap } from 'rxjs/operators';
-import { of, concat, Observable } from 'rxjs';
-
-export type Action<TPayload> = (payload?: TPayload) => Reducer;
-export type Reducer = (currentState: State) => Observable<State>;
-
-const withState = (reducer: Reducer) =>
-  appState
-    .pipe(
-      take(1),
-      switchMap(state => reducer(state)),
-    );
-
-export const subscribe = (observable: Observable<State>) =>
-  observable.subscribe(newState => appState.next(newState));
-
-export const toNextState = (reducer: Reducer) => {
-  const sequence = withState(reducer);
-
-  subscribe(withState(reducer));
-
-  return sequence;
-};
+import { State, withState } from './state';
+import { catchError, switchMap } from 'rxjs/operators';
+import { of, concat } from 'rxjs';
 
 export const addMessage = (message: string) =>
   (currentState: State) =>
