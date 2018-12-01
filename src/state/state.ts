@@ -18,6 +18,8 @@ export const defaultState: State = {
 export type Action<TPayload> = (payload?: TPayload) => Reducer;
 export type Reducer = (currentState: State) => Observable<State>;
 
+export const appState = new ReplaySubject<State>(1);
+
 export const withState = (reducer: Reducer) =>
   appState
     .pipe(
@@ -28,6 +30,7 @@ export const withState = (reducer: Reducer) =>
 export const subscribe = (observable: Observable<State>) =>
   observable.subscribe(newState => appState.next(newState));
 
+// TODO: make these names better!
 export const toNextState = (reducer: Reducer) => {
   const sequence = withState(reducer);
 
@@ -36,5 +39,4 @@ export const toNextState = (reducer: Reducer) => {
   return sequence;
 };
 
-export const appState = new ReplaySubject<State>(1);
 appState.next(defaultState);
