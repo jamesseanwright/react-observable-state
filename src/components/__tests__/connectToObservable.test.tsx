@@ -46,12 +46,12 @@ describe('connectToObservable', () => {
       useEffect,
     )(MyComponent);
 
-    const renderedElement = shallow(
+    const rendered = shallow(
       <WrappedComponent />,
     );
 
-    expect(renderedElement.prop('foo')).toBe('lol');
-    expect(renderedElement.prop('bar')).toBe('rofl');
+    expect(rendered.prop('foo')).toBe('lol');
+    expect(rendered.prop('bar')).toBe('rofl');
   });
 
   it('should proxy its own props to the wrapped component', () => {
@@ -66,14 +66,14 @@ describe('connectToObservable', () => {
       useEffect,
     )(MyComponent);
 
-    const renderedElement = shallow(
+    const rendered = shallow(
       <WrappedComponent baz="one" qux="two" />,
     );
 
-    expect(renderedElement.prop('foo')).toBe('lol');
-    expect(renderedElement.prop('bar')).toBe('rofl');
-    expect(renderedElement.prop('baz')).toBe('one');
-    expect(renderedElement.prop('qux')).toBe('two');
+    expect(rendered.prop('foo')).toBe('lol');
+    expect(rendered.prop('bar')).toBe('rofl');
+    expect(rendered.prop('baz')).toBe('one');
+    expect(rendered.prop('qux')).toBe('two');
   });
 
   it('should update the wrapped component when the observable emits', () => {
@@ -97,12 +97,12 @@ describe('connectToObservable', () => {
       useEffect,
     )(MyComponent);
 
-    const renderedElement = shallow(
+    const rendered = shallow(
       <WrappedComponent baz="one" qux="two" />,
     );
 
-    expect(renderedElement.prop('a')).toBe(0);
-    expect(renderedElement.prop('b')).toBe(1);
+    expect(rendered.prop('a')).toBe(0);
+    expect(rendered.prop('b')).toBe(1);
 
     sequence.forEach(item => {
       subject.next(item);
