@@ -29,9 +29,7 @@ export const withState = (reducer: Reducer) =>
 
 export const toNextState = (reducer: Reducer) => {
   const sequence = withState(reducer);
-
   sequence.subscribe(newState => appState.next(newState));
-
   return sequence;
 };
 
