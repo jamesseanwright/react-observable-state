@@ -1,27 +1,9 @@
 jest.mock('rxjs/ajax');
 
-import { Observable, of, throwError } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
 import { addMessage, onQuoteError, onQuoteLoading, addRonSwansonQuote } from '../mutations';
-
-const toAwaitable = <T>(observable: Observable<T>) => {
-  let emissions: T[] = [];
-
-  return new Promise<T[]>((resolve, reject) =>
-    observable.subscribe({
-      next(value) {
-        emissions = [
-          ...emissions,
-          value,
-        ];
-      },
-      complete() {
-        resolve(emissions);
-      },
-      error: reject,
-    }),
-  );
-};
+import { toAwaitable } from '../../__tests__/testUtils';
 
 describe('state mutations', () => {
   describe('addMessage', () => {
