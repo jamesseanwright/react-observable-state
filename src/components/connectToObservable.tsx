@@ -1,12 +1,17 @@
 import * as React from 'react';
 import { Observable } from 'rxjs';
 
-const connectToObservable = <TState, TProps = {}>(observable: Observable<TState>, defaultState: TState) =>
+const connectToObservable = <TState, TProps = {}>(
+  observable: Observable<TState>,
+  defaultState: TState,
+  useState = React.useState,
+  useEffect = React.useEffect,
+) =>
   (Component: React.ComponentType<TProps & TState>) =>
     (props: TProps) => {
-      const [state, setState] = React.useState(defaultState);
+      const [state, setState] = useState(defaultState);
 
-      React.useEffect(() => {
+      useEffect(() => {
         const subscription = observable.subscribe(setState);
         return () => {
           subscription.unsubscribe();
