@@ -5,7 +5,6 @@ import {
   addMessage,
   addRonSwansonQuote,
   toNextState,
-  subscribe,
   State,
   appState,
   defaultState,

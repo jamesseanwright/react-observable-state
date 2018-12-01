@@ -1,3 +1,4 @@
+// TODO: inconsistent with other stubs. Inject!
 jest.mock('rxjs/ajax');
 
 import { of, throwError } from 'rxjs';
