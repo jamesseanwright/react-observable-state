@@ -27,14 +27,10 @@ export const withState = (reducer: Reducer) =>
       switchMap(state => reducer(state)),
     );
 
-export const subscribe = (observable: Observable<State>) =>
-  observable.subscribe(newState => appState.next(newState));
-
-// TODO: make these names better!
 export const toNextState = (reducer: Reducer) => {
   const sequence = withState(reducer);
 
-  subscribe(withState(reducer));
+  sequence.subscribe(newState => appState.next(newState));
 
   return sequence;
 };

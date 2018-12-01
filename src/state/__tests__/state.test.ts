@@ -1,6 +1,5 @@
-import { of, Subject } from 'rxjs';
-import { State, appState, defaultState, withState, subscribe } from '../state';
-import { take } from 'rxjs/operators';
+import { of, concat } from 'rxjs';
+import { State, appState, defaultState, withState, toNextState } from '../state';
 import { toAwaitable } from '../../__tests__/testUtils';
 
 /* I considered writing these as true unit tests
@@ -33,31 +32,33 @@ describe('state', () => {
     });
   });
 
-  describe('subscribe', () => {
-    it('should subscribe to the source observable and forward emissions to the app state', async () => {
-      const subject = new Subject<State>();
+  describe('toNextState', () => {
+    it('should subscribe to the stream returned by the reducer and push it to the app state', async () => {
+      const reducer = (state: State) =>
+        concat(
+          of({
+            ...state,
+            isLoadingQuote: true,
+          }),
+          of({
+            ...state,
+            isLoadingQuote: false,
+          }),
+        );
 
-      subscribe(subject);
-
-      subject.next({
-        ...defaultState,
-        isLoadingQuote: true,
-      });
-
-      const [newState] = await toAwaitable(
-        appState.pipe(
-          take(1),
-        ),
+      const [loadingState, doneState] = await toAwaitable(
+        toNextState(reducer),
       );
 
-      expect(newState).toEqual({
+      expect(loadingState).toEqual({
         ...defaultState,
         isLoadingQuote: true,
       });
+
+      expect(doneState).toEqual({
+        ...defaultState,
+        isLoadingQuote: false,
+      });
     });
-  });
-
-  describe('toNextState', () => {
-
   });
 });

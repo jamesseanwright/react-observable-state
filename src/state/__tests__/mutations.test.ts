@@ -113,7 +113,7 @@ describe('state mutations', () => {
     it('should dispatch the loading state, request a quote, and add it if successful', async () => {
       (ajax.getJSON as jest.Mock).mockImplementation(() => of(['some quote']));
 
-      const [loadingState, messageState] = await toAwaitable(addRonSwansonQuote());
+      const [loadingState, messageState] = await toAwaitable(addRonSwansonQuote()());
 
       expect(loadingState.isLoadingQuote).toBe(true);
       expect(messageState.hasQuoteError).toBe(false);
@@ -123,7 +123,7 @@ describe('state mutations', () => {
     it('should dispatch the error state when the quote call fails', async () => {
       (ajax.getJSON as jest.Mock).mockImplementation(() => throwError(new Error('Nope')));
 
-      const [loadingState, errorState] = await toAwaitable(addRonSwansonQuote());
+      const [loadingState, errorState] = await toAwaitable(addRonSwansonQuote()());
 
       expect(loadingState.isLoadingQuote).toBe(true);
       expect(errorState.isLoadingQuote).toBe(false);

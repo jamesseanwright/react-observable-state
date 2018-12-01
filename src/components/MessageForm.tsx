@@ -32,7 +32,7 @@ const MessageForm = ({ isLoadingQuote, isFormValid, hasQuoteError }: State) => {
         <button
           type="button"
           disabled={isLoadingQuote}
-          onClick={() => subscribe(addRonSwansonQuote())}
+          onClick={() => toNextState(addRonSwansonQuote())}
         >
           Add Ron Swanson quote
         </button>

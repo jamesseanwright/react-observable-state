@@ -33,11 +33,12 @@ export const onQuoteError = () =>
     });
 
 export const addRonSwansonQuote = () =>
-  concat(
-    withState(onQuoteLoading()),
-    ajax.getJSON<string[]>('https://ron-swanson-quotes.herokuapp.com/v2/quotes')
-      .pipe(
-        switchMap(([quote]) => withState(addMessage(quote))),
-        catchError(() => withState(onQuoteError())),
-      ),
-  );
+  () =>
+    concat(
+      withState(onQuoteLoading()),
+      ajax.getJSON<string[]>('https://ron-swanson-quotes.herokuapp.com/v2/quotes')
+        .pipe(
+          switchMap(([quote]) => withState(addMessage(quote))),
+          catchError(() => withState(onQuoteError())),
+        ),
+    );
