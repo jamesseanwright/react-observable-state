@@ -2,6 +2,7 @@ import * as React from 'react';
 import { empty, Subject, Observable } from 'rxjs';
 import { shallow } from 'enzyme';
 import connectToObservable from '../connectToObservable';
+import { SetState, StateHook } from '../../__tests__/testUtils';
 
 interface State {
   foo: string;
@@ -17,9 +18,6 @@ interface OwnProps {
   baz: string;
   qux: string;
 }
-
-type SetState<TState = State> = (s: TState) => TState;
-type StateHook<TState = State> = [TState, SetState<TState>];
 
 const defaultState = {
   foo: 'lol',
