@@ -12,12 +12,35 @@ This proof of concept thus establishes the feasibility of cutting out these midd
 
 ## The App
 
-TODO
+The app is a straightforward React app that renders user-submitted messages, as well as displaying quotes from the [Ron Swanson Quotes](https://github.com/jamesseanwright/ron-swanson-quotes) API.
 
 ## Points of Interest
 
-TODO
+### [`src/components/connectToObservable.tsx`](https://github.com/jamesseanwright/react-observable-state/blob/master/src/components/connectToObservable.tsx)
+
+A higher-order component that subscribes to a given observable, updating the wrapped component on each emission and unsubscribing when it is unmounted. This makes use of the proposed [React Hooks API](https://reactjs.org/docs/hooks-intro.html).
+
+### [`src/components/MessageForm.tsx`](https://github.com/jamesseanwright/react-observable-state/blob/master/src/components/MessageForm.tsx)
+
+The component responsible for rendering the form, demonstrating the usage of `connectToObservable` as well as dispatching actions with the `toNextState` function.
+
+### [`src/state/state.ts`](https://github.com/jamesseanwright/react-observable-state/blob/master/src/state/state.ts)
+
+The module that houses `appState`, a `ReplaySubject` with a buffer size of one, as well as the default state and the `withState` and `toNextState` functions; the former is used to invoke the particular reducer returned by an action with the current state, and the latter pushes the emissions of a reducer to `appState`.
+
+### [`src/state/mutations.ts`](https://github.com/jamesseanwright/react-observable-state/blob/master/src/state/mutations.ts)
+
+The action-reducers consumed by the app. As roughly described above, an action will return a reducer; this is a function that takes the current state and either merges it with the payload of an action (i.e. `addMessage`, `onQuoteLoading`, `onQuoteError`), or emits the results of multiple action-reducers (i.e. `addRonSwansonQuote`).
 
 ## Running Locally
 
-TODO
+To set up:
+
+1. `git clone https://github.com/jamesseanwright/react-observable-state.git`
+2. `cd react-observable-state`
+3. `npm i`
+
+Then you can run one of the following commands:
+
+* `npm run dev` - builds the project with [rollup.js](https://rollupjs.org/guide/en) and serves it from port 8080
+* `npm test` - runs the unit tests (append ` -- --watch` to launch Jest's watch mode)
