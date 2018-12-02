@@ -35,7 +35,7 @@ describe('MessageForm', () => {
 
     const rendered = shallow(
       <MessageForm
-        isFormValid={true}
+        isFormValid
         isLoadingQuote={false}
         hasQuoteError={false}
       />,
@@ -48,5 +48,68 @@ describe('MessageForm', () => {
     expect(quoteButton.prop('disabled')).toBe(false);
     expect(formInvalidMessage.exists()).toBe(false);
     expect(quoteFailedMessage.exists()).toBe(false);
+  });
+
+  it('should disable the add quote button when a quote is loading', () => {
+    const MessageForm = createMessageForm(
+      defaultUseState,
+      toNextState,
+      addMessage,
+      addRonSwansonQuote,
+    );
+
+    const rendered = shallow(
+      <MessageForm
+        isFormValid
+        isLoadingQuote
+        hasQuoteError={false}
+      />,
+    );
+
+    const quoteButton = rendered.find(ADD_QUOTE_BUTTON_SELECTOR);
+
+    expect(quoteButton.prop('disabled')).toBe(true);
+  });
+
+  it('should show the quote error message when a quote could not be loaded', () => {
+    const MessageForm = createMessageForm(
+      defaultUseState,
+      toNextState,
+      addMessage,
+      addRonSwansonQuote,
+    );
+
+    const rendered = shallow(
+      <MessageForm
+        isFormValid
+        isLoadingQuote={false}
+        hasQuoteError
+      />,
+    );
+
+    const errorMessage = rendered.find(QUOTE_ERROR_MESSAGE_SELECTOR);
+
+    expect(errorMessage.exists()).toBe(true);
+  });
+
+  it('should show the form message it is invalid', () => {
+    const MessageForm = createMessageForm(
+      defaultUseState,
+      toNextState,
+      addMessage,
+      addRonSwansonQuote,
+    );
+
+    const rendered = shallow(
+      <MessageForm
+        isFormValid={false}
+        isLoadingQuote={false}
+        hasQuoteError={false}
+      />,
+    );
+
+    const errorMessage = rendered.find(FORM_INVALID_MESSAGE_SELECTOR);
+
+    expect(errorMessage.exists()).toBe(true);
   });
 });
