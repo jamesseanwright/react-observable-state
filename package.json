@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "tslint 'src/**/*.{ts,tsx}' && jest",
-    "build": "mkdir -p dist && rm -rf dist/* && cp src/index.html dist && rollup -c",
+    "build": "mkdir -p dist && rm -rf dist/* && cp src/index.html src/index.css dist && rollup -c",
     "dev": "npm run build && static -H '{\"Cache-Control\": \"no-cache, must-revalidate\"}' dist"
   },
   "repository": {

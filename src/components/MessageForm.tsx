@@ -28,13 +28,19 @@ export const createMessageForm = (
           }}
         >
           <input
+            className="form-input"
             type="text"
             name="message"
             placeholder="Your comment"
             onChange={e => setMessage(e.currentTarget.value)}
           />
-          <input type="submit" value="Add" />
+          <input
+            className="form-input form-button"
+            type="submit"
+            value="Add"
+          />
           <button
+            className="form-input form-button"
             type="button"
             name="add-quote"
             disabled={isLoadingQuote}
