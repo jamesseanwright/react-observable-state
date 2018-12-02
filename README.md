@@ -16,6 +16,8 @@ The app is a straightforward React app that renders user-submitted messages, as 
 
 ## Points of Interest
 
+I will be writing a fully-fledged post on this app soon, and might even be giving a talk on it somewhere (TBA very soon), but for now, here's a brief tour.
+
 ### [`src/components/connectToObservable.tsx`](https://github.com/jamesseanwright/react-observable-state/blob/master/src/components/connectToObservable.tsx)
 
 A higher-order component that subscribes to a given observable, updating the wrapped component on each emission and unsubscribing when it is unmounted. This makes use of the proposed [React Hooks API](https://reactjs.org/docs/hooks-intro.html).
