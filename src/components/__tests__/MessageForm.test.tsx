@@ -1,11 +1,8 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
-import { Observable } from 'rxjs';
 import { createMessageForm } from '../MessageForm';
-import { State } from '../../state';
 import { StateHook, SetState } from '../../__tests__/testUtils';
 
-const MESSAGE_INPUT_SELECTOR = 'input[name="message"]';
 const ADD_QUOTE_BUTTON_SELECTOR = 'button[name="add-quote"]';
 const FORM_INVALID_MESSAGE_SELECTOR = '.form-invalid-message';
 const QUOTE_ERROR_MESSAGE_SELECTOR = '.quote-failure-message';
@@ -92,7 +89,7 @@ describe('MessageForm', () => {
     expect(errorMessage.exists()).toBe(true);
   });
 
-  it('should show the form message it is invalid', () => {
+  it('should show the form error message it is invalid', () => {
     const MessageForm = createMessageForm(
       defaultUseState,
       toNextState,
@@ -111,5 +108,104 @@ describe('MessageForm', () => {
     const errorMessage = rendered.find(FORM_INVALID_MESSAGE_SELECTOR);
 
     expect(errorMessage.exists()).toBe(true);
+  });
+
+  it('should update the message in the state when the input changes value', () => {
+    const MessageForm = createMessageForm(
+      defaultUseState,
+      toNextState,
+      addMessage,
+      addRonSwansonQuote,
+    );
+
+    const rendered = shallow(
+      <MessageForm
+        isFormValid
+        isLoadingQuote={false}
+        hasQuoteError={false}
+      />,
+    );
+
+    const input = rendered.find('input[name="message"]');
+
+    input.simulate('change', {
+      currentTarget: {
+        value: 'foo',
+      },
+    });
+
+    expect(defaultSetState).toHaveBeenCalledTimes(1);
+    expect(defaultSetState).toHaveBeenCalledWith('foo');
+  });
+
+  it('should dispatch the addMessage action when the form is submitted', () => {
+    const useState = jest.fn<StateHook<string>>(() => ['my message', defaultSetState]);
+
+    const MessageForm = createMessageForm(
+      useState,
+      toNextState,
+      addMessage,
+      addRonSwansonQuote,
+    );
+
+    const rendered = shallow(
+      <MessageForm
+        isFormValid
+        isLoadingQuote={false}
+        hasQuoteError={false}
+      />,
+    );
+
+    addMessage.mockImplementation(message => ({
+      __actionName: 'addMessage', // just a dummy property for testing
+      message,
+    }));
+
+    const form = rendered.find('form[name="message-form"]');
+
+    const submitEvent = {
+      preventDefault: jest.fn(),
+    };
+
+    form.simulate('submit', submitEvent);
+
+    expect(submitEvent.preventDefault).toHaveBeenCalledTimes(1);
+    expect(toNextState).toHaveBeenCalledTimes(1);
+
+    expect(toNextState).toHaveBeenCalledWith({
+      __actionName: 'addMessage',
+      message: 'my message',
+    });
+  });
+
+  it('should dispatch the addRonSwansonQuote action when the add quote button is clicked', () => {
+    const MessageForm = createMessageForm(
+      defaultUseState,
+      toNextState,
+      addMessage,
+      addRonSwansonQuote,
+    );
+
+    const rendered = shallow(
+      <MessageForm
+        isFormValid
+        isLoadingQuote={false}
+        hasQuoteError={false}
+      />,
+    );
+
+    addRonSwansonQuote.mockImplementation(() => ({
+      __actionName: 'addRonSwansonQuote', // just a dummy property for testing
+    }));
+
+    const button = rendered.find(ADD_QUOTE_BUTTON_SELECTOR);
+
+    button.simulate('click');
+
+    expect(toNextState).toHaveBeenCalledTimes(1);
+
+    expect(toNextState).toHaveBeenCalledWith({
+      __actionName: 'addRonSwansonQuote',
+    });
   });
 });

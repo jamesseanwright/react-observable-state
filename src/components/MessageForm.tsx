@@ -20,16 +20,18 @@ export const createMessageForm = (
       <section>
         <h2>Add a Message</h2>
 
-        <form onSubmit={e => {
-          e.preventDefault();
-          toNextState(addMessage(message));
-        }}>
+        <form
+          name="message-form"
+          onSubmit={e => {
+            e.preventDefault();
+            toNextState(addMessage(message));
+          }}
+        >
           <input
             type="text"
             name="message"
             placeholder="Your comment"
             onChange={e => setMessage(e.currentTarget.value)}
-            value="fafa"
           />
           <input type="submit" value="Add" />
           <button
