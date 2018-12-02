@@ -6,7 +6,8 @@
   "scripts": {
     "test": "tslint 'src/**/*.{ts,tsx}' && jest",
     "build": "mkdir -p dist && rm -rf dist/* && cp src/index.html src/index.css dist && rollup -c",
-    "dev": "npm run build && static -H '{\"Cache-Control\": \"no-cache, must-revalidate\"}' dist"
+    "start": "static -H '{\"Cache-Control\": \"no-cache, must-revalidate\"}' dist",
+    "dev": "npm run build && npm start"
   },
   "repository": {
     "type": "git",
