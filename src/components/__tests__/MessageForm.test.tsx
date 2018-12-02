@@ -7,6 +7,7 @@ const ADD_QUOTE_BUTTON_SELECTOR = 'button[name="add-quote"]';
 const FORM_INVALID_MESSAGE_SELECTOR = '.form-invalid-message';
 const QUOTE_ERROR_MESSAGE_SELECTOR = '.quote-failure-message';
 
+// TODO: refactor state hook when possible, à la connectToObservable
 describe('MessageForm', () => {
   let defaultSetState: jest.Mock<SetState<string>>;
   let defaultUseState: jest.Mock<StateHook<string>>;
