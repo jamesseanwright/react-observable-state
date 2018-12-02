@@ -32,11 +32,11 @@ export const onQuoteError = () =>
       hasQuoteError: true,
     });
 
-export const addRonSwansonQuote = () =>
+export const addRonSwansonQuote = (getJSON = ajax.getJSON) =>
   () =>
     concat(
       withState(onQuoteLoading()),
-      ajax.getJSON<string[]>('https://ron-swanson-quotes.herokuapp.com/v2/quotes')
+      getJSON<string[]>('https://ron-swanson-quotes.herokuapp.com/v2/quotes')
         .pipe(
           switchMap(([quote]) => withState(addMessage(quote))),
           catchError(() => withState(onQuoteError())),
