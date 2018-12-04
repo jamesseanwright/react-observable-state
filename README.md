@@ -28,7 +28,7 @@ The component responsible for rendering the form, demonstrating the usage of `co
 
 ### [`src/state/state.ts`](https://github.com/jamesseanwright/react-observable-state/blob/master/src/state/state.ts)
 
-The module that houses `appState`, a `ReplaySubject` with a buffer size of one, as well as the default state and the `withState` and `toNextState` functions; the former is used to invoke the particular reducer returned by an action with the current state, and the latter pushes the emissions of a reducer to `appState`.
+The module that houses `appState`, a `BehaviorSubject` with a buffer size of one, as well as the default state and the `withState` and `toNextState` functions; the former is used to invoke the particular reducer returned by an action with the current state, and the latter pushes the emissions of a reducer to `appState`.
 
 ### [`src/state/mutations.ts`](https://github.com/jamesseanwright/react-observable-state/blob/master/src/state/mutations.ts)
 

@@ -1,4 +1,4 @@
-import { ReplaySubject, Observable } from 'rxjs';
+import { ReplaySubject, Observable, BehaviorSubject } from 'rxjs';
 import { take, switchMap } from 'rxjs/operators';
 
 export interface State {
@@ -18,7 +18,7 @@ export const defaultState: State = {
 export type Action<TPayload> = (payload?: TPayload) => Reducer;
 export type Reducer = (currentState: State) => Observable<State>;
 
-export const appState = new ReplaySubject<State>(1);
+export const appState = new BehaviorSubject<State>(defaultState);
 
 export const withState = (reducer: Reducer) =>
   appState
@@ -32,5 +32,3 @@ export const toNextState = (reducer: Reducer) => {
   sequence.subscribe(newState => appState.next(newState));
   return sequence;
 };
-
-appState.next(defaultState);
