@@ -1,7 +1,7 @@
+import { of, concat } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
 import { State, withState } from './state';
 import { catchError, switchMap } from 'rxjs/operators';
-import { of, concat } from 'rxjs';
 
 export const addMessage = (message: string) =>
   (currentState: State) =>
