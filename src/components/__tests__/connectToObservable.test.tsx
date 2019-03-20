@@ -27,10 +27,12 @@ const defaultState = {
 const range = (length: number) => Array(length).fill(null);
 const MyComponent = () => <div />;
 
-/* Currently, react-test-renderer does not support hooks,
- * thus controllable mocks of useState and useEffect will
- * be injected into the implementation to determine changes
- * TODO: rewrite tests to assert props when above is fixed */
+/* React Test Renderer and Enzyme now support basic
+ * rendering of React Hooks, but doesn't respect
+ * any component updates they may trigger, thus
+ * I'm still having to rely upon this workaround.
+ * TODO: Remove these stubs and query props for
+ * changes when /airbnb/enzyme/pull/2008 is merged */
 describe('connectToObservable', () => {
   it('should render the wrapped component with defaultState as props', () => {
     const setState = jest.fn<SetState>(() => undefined);
@@ -104,7 +106,7 @@ describe('connectToObservable', () => {
 
     sequence.forEach(item => {
       subject.next(item);
-      // TODO: as "stated" above, query props when new RTR is out
+      // TODO: as "stated" above, query props when Enzyme PR is merged
       expect(setState).toHaveBeenCalledWith(item);
     });
   });
