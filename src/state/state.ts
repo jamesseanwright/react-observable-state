@@ -1,4 +1,4 @@
-import { ReplaySubject, Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { take, switchMap } from 'rxjs/operators';
 
 export interface State {
