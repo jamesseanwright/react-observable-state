@@ -27,8 +27,8 @@
   },
   "homepage": "https://github.com/jamesseanwright/react-observable-state#readme",
   "dependencies": {
-    "react": "16.7.0-alpha.2",
-    "react-dom": "16.7.0-alpha.2",
+    "react": "16.8.4",
+    "react-dom": "16.8.4",
     "rxjs": "6.3.3"
   },
   "devDependencies": {
@@ -36,8 +36,8 @@
     "@types/jest": "23.3.9",
     "@types/react": "16.7.7",
     "@types/react-dom": "16.0.10",
-    "enzyme": "3.7.0",
-    "enzyme-adapter-react-16": "1.7.0",
+    "enzyme": "3.9.0",
+    "enzyme-adapter-react-16": "1.11.2",
     "jest": "23.6.0",
     "node-static": "0.7.11",
     "rollup": "0.67.3",
